@@ -147,7 +147,8 @@ flush_cache() {
 
 v2dat_dump() {
     # env
-    v2dat_dir=/usr/share/v2ray
+    #v2dat_dir=/usr/share/v2ray
+    v2dat_dir=/etc/openclash
     adblock=$(uci -q get mosdns.config.adblock)
     ad_source=$(uci -q get mosdns.config.ad_source)
     configfile=$(uci -q get mosdns.config.configfile)
@@ -163,12 +164,18 @@ v2dat_dump() {
         touch /var/mosdns/geosite_disney.txt ; touch /var/mosdns/geosite_netflix.txt ; touch /var/mosdns/geosite_hulu.txt
     else
         # custom config
-        v2dat unpack geoip -o /var/mosdns -f cn $v2dat_dir/geoip.dat
-        v2dat unpack geosite -o /var/mosdns -f cn -f 'geolocation-!cn' $v2dat_dir/geosite.dat
+        #v2dat unpack geoip -o /var/mosdns -f cn $v2dat_dir/geoip.dat
+        #v2dat unpack geosite -o /var/mosdns -f cn -f 'geolocation-!cn' $v2dat_dir/geosite.dat
+        #geoip_tags=$(uci -q get mosdns.config.geoip_tags)
+        #geosite_tags=$(uci -q get mosdns.config.geosite_tags)
+        #[ -n "$geoip_tags" ] && v2dat unpack geoip -o /var/mosdns $(echo $geoip_tags | sed -r 's/\S+/-f &/g') $v2dat_dir/geoip.dat
+        #[ -n "$geosite_tags" ] && v2dat unpack geosite -o /var/mosdns $(echo $geosite_tags | sed -r 's/\S+/-f &/g') $v2dat_dir/geosite.dat
+        v2dat unpack geoip -o /var/mosdns -f cn $v2dat_dir/GeoIP.dat
+        v2dat unpack geosite -o /var/mosdns -f cn -f 'geolocation-!cn' $v2dat_dir/GeoSite.dat
         geoip_tags=$(uci -q get mosdns.config.geoip_tags)
         geosite_tags=$(uci -q get mosdns.config.geosite_tags)
-        [ -n "$geoip_tags" ] && v2dat unpack geoip -o /var/mosdns $(echo $geoip_tags | sed -r 's/\S+/-f &/g') $v2dat_dir/geoip.dat
-        [ -n "$geosite_tags" ] && v2dat unpack geosite -o /var/mosdns $(echo $geosite_tags | sed -r 's/\S+/-f &/g') $v2dat_dir/geosite.dat
+        [ -n "$geoip_tags" ] && v2dat unpack geoip -o /var/mosdns $(echo $geoip_tags | sed -r 's/\S+/-f &/g') $v2dat_dir/GeoIP.dat
+        [ -n "$geosite_tags" ] && v2dat unpack geosite -o /var/mosdns $(echo $geosite_tags | sed -r 's/\S+/-f &/g') $v2dat_dir/GeoSite.dat
     fi
 }
 
